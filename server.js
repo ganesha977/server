@@ -2,44 +2,39 @@ const express = require("express");
 const dotenv = require("dotenv");
 const morgan = require("morgan");
 const connectDB = require("./config/db");
-const cloudinary = require ('cloudinary')
+const cloudinary = require("cloudinary");
 const cors = require("cors");
 const authRoutes = require("./routes/auth-route");
 const adminRoutes = require("./routes/admin-route");
 const categoryRoutes = require("./routes/categoryRoutes");
 const productRoutes = require("./routes/productRoute");
 
-
 dotenv.config(); // Load environment variables before using them
 connectDB(); // Connect to the database
 
 const app = express();
 
-
-
-
-
 cloudinary.v2.config({
   cloud_name: process.env.CLOUD_NAME,
   api_key: process.env.CLOUD_API_KEY,
-  api_secret: process.env.CLOUD_API_SECRET
+  api_secret: process.env.CLOUD_API_SECRET,
 });
 
-
-
-
-// CORS configuration
+// Updated CORS configuration
 const corsOptions = {
-  origin: "http://localhost:5173",
-  methods: "GET, POST, PUT, DELETE, PATCH, HEAD",
-  credentials: true,
+  origin: [
+    "http://localhost:5173", // Development environment
+    "https://main--rahulecom.netlify.app", // Netlify deployed site
+  ],
+  methods: "GET, POST, PUT, DELETE, PATCH, OPTIONS",
+  credentials: true, // Allow cookies if needed
 };
 
 app.use(cors(corsOptions));
 app.options("*", cors(corsOptions)); // Handle preflight requests
 
 app.use(morgan("dev"));
-app.use(express.json({ limit: '10mb' })); // Increase payload limit if needed
+app.use(express.json({ limit: "10mb" })); // Increase payload limit if needed
 
 // Route Middleware
 app.use("/api/v1/auth", authRoutes);
@@ -52,7 +47,7 @@ app.use((err, req, res, next) => {
   console.error(err.stack);
   res.status(err.status || 500).json({
     success: false,
-    message: err.message || 'Internal Server Error',
+    message: err.message || "Internal Server Error",
   });
 });
 
