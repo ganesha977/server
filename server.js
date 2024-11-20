@@ -23,7 +23,7 @@ cloudinary.v2.config({
 // Updated CORS configuration
 const corsOptions = {
   origin: [
-    "https://rahulecom.netlify.app/",
+    "https://rahulecom.netlify.app",
     "http://localhost:5173", // Development environment
   ],
   methods: "GET, POST, PUT, DELETE, PATCH, OPTIONS",
