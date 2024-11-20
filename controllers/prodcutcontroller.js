@@ -1,7 +1,7 @@
 const fs = require("fs");
 const slugify = require("slugify");
-const productModel = require("../models/productmodel");
-const categoryModel = require("../models/categorymodel");
+const productModel = require("../models/productmodel.js");
+const categoryModel = require("../models/categoryModel.js");
 const Order = require("../models/orderModel");
 
 const cloudinary = require("cloudinary");
